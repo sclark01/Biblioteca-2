@@ -20,6 +20,7 @@ public class BibliotecaApp {
     public void start() {
         printStream.println("Welcome to the Biblioteca Library!");
         menu.listOptions();
+        menu.getUserInput();
     }
 
     public void listBooks() {
@@ -31,7 +32,4 @@ public class BibliotecaApp {
         printStream.print(output);
     }
 
-
-    public void showMenu() {
-    }
 }

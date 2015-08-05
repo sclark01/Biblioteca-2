@@ -60,7 +60,12 @@ public class BibliotecaAppTest {
         bibliotecaApp.start();
         verify(menu).listOptions();
     }
-    
+
+    @Test
+    public void shouldGetUserInputWhenLibraryStarts() {
+        bibliotecaApp.start();
+        verify(menu).getUserInput();
+    }
 
 
 
