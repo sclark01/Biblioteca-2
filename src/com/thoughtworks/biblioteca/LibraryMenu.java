@@ -25,15 +25,16 @@ public class LibraryMenu {
 
     public void listOptions() {
         printstream.println("List Books");
+        printstream.println("Quit");
     }
 
     public String getUserInput() {
         String input = "";
         try {
             input = reader.readLine();
-            if (!input.equals("List Books")) {
+            if (!input.equals("List Books") && !input.equals("Quit")) {
                 printstream.println("Select a valid option!");
-                getUserInput();
+                return getUserInput();
             }
         } catch (IOException e) {
             e.printStackTrace();

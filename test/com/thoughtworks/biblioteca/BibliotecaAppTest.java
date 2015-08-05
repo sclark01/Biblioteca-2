@@ -4,15 +4,15 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.contains;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 public class BibliotecaAppTest {
@@ -22,14 +22,15 @@ public class BibliotecaAppTest {
     private List<Book> bookList;
     private Book harryPotter;
     private LibraryMenu menu;
+    private BufferedReader reader;
 
     @Before
     public void setUp(){
         printStream = mock(PrintStream.class);
-
+        reader = mock(BufferedReader.class);
         bookList = new ArrayList<>();
         menu = mock(LibraryMenu.class);
-        bibliotecaApp = new BibliotecaApp(printStream, bookList, menu);
+        bibliotecaApp = new BibliotecaApp(printStream, bookList, menu, reader);
         harryPotter = mock(Book.class);
 
 
@@ -56,7 +57,8 @@ public class BibliotecaAppTest {
     }
 
     @Test
-    public void shouldShowMenuOptionsWhenLibraryStarts() {
+    public void shouldShowMenuOptionsWhenLibraryStarts() throws IOException {
+        when(reader.readLine()).thenReturn("List Books");
         bibliotecaApp.start();
         verify(menu).listOptions();
     }
@@ -67,9 +69,11 @@ public class BibliotecaAppTest {
         verify(menu).getUserInput();
     }
 
-
-
-
-
+    @Test
+    public void shouldStopPromptingWhenUserEntersQuit() throws IOException {
+        when(menu.getUserInput()).thenReturn("List Books", "List Books", "Quit");
+        bibliotecaApp.start();
+        verify(menu, times(3)).getUserInput();
+    }
 
 }

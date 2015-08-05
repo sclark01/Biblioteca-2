@@ -36,6 +36,7 @@ public class LibraryMenuTest {
     public void shouldPrintMenuOptionsWhenOpened() {
         menu.listOptions();
         verify(printStream).println(contains("List Books"));
+        verify(printStream).println(contains("Quit"));
     }
 
     @Test
@@ -56,6 +57,7 @@ public class LibraryMenuTest {
         when(reader.readLine()).thenReturn("Something invalid", "Something invalid", "List Books");
         menu.getUserInput();
         verify(reader, atLeast(2)).readLine();
-
     }
+
+
 }
