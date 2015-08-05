@@ -14,9 +14,7 @@ import java.util.Scanner;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.contains;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * Created by sleblanc on 8/5/15.
@@ -44,5 +42,20 @@ public class LibraryMenuTest {
     public void shouldGetUserInputWhenPrompted() throws IOException {
         when(reader.readLine()).thenReturn("List Books");
         assertEquals("List Books", menu.getUserInput());
+    }
+
+    @Test
+    public void shouldDisplayInvalidMenuOptionWhenInputIsInvalid() throws IOException {
+        when(reader.readLine()).thenReturn("Something invalid", "List Books");
+        menu.getUserInput();
+        verify(printStream).println(contains("Select a valid option!"));
+    }
+
+    @Test
+    public void shouldCallGetUserInputMoreThanOnceWhenInputIsInvalid() throws IOException {
+        when(reader.readLine()).thenReturn("Something invalid", "Something invalid", "List Books");
+        menu.getUserInput();
+        verify(reader, atLeast(2)).readLine();
+
     }
 }

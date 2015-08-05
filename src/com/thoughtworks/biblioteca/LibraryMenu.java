@@ -31,6 +31,10 @@ public class LibraryMenu {
         String input = "";
         try {
             input = reader.readLine();
+            if (!input.equals("List Books")) {
+                printstream.println("Select a valid option!");
+                getUserInput();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
