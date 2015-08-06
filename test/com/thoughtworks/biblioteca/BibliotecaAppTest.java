@@ -38,6 +38,7 @@ public class BibliotecaAppTest {
 
     @Test
     public void shouldPrintWelcomeMessageWhenStarting(){
+        when(menu.getUserInput()).thenReturn("List Books", "Quit");
         bibliotecaApp.start();
         verify(printStream).println(contains("Welcome"));
     }
@@ -52,21 +53,24 @@ public class BibliotecaAppTest {
 
     @Test
     public void shouldListNothingWhenNoBooksInLibrary(){
-        bibliotecaApp.listBooks();
+        when(menu.getUserInput()).thenReturn("List Books", "Quit");
+        bibliotecaApp.start();
+        //bibliotecaApp.listBooks();
         verify(printStream).print(contains(""));
     }
 
     @Test
     public void shouldShowMenuOptionsWhenLibraryStarts() throws IOException {
-        when(reader.readLine()).thenReturn("List Books");
+        when(menu.getUserInput()).thenReturn("List Books", "Quit");
         bibliotecaApp.start();
         verify(menu).listOptions();
     }
 
     @Test
     public void shouldGetUserInputWhenLibraryStarts() {
+        when(menu.getUserInput()).thenReturn("List Books", "Quit");
         bibliotecaApp.start();
-        verify(menu).getUserInput();
+        verify(menu, atLeastOnce()).getUserInput();
     }
 
     @Test
@@ -75,5 +79,6 @@ public class BibliotecaAppTest {
         bibliotecaApp.start();
         verify(menu, times(3)).getUserInput();
     }
+
 
 }
